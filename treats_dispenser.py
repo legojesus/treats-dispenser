@@ -1,5 +1,4 @@
 ### Pet Dispenser 1.0.2
-# Author: Yaron Kachalon
 # Date: 2022-08-30
 
 # -------------------------------------------
