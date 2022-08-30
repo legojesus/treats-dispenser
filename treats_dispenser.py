@@ -1,4 +1,4 @@
-### Pet Dispenser 1.0
+### Pet Dispenser 1.0.2
 # Author: Yaron Kachalon
 # Date: 2022-08-30
 
@@ -60,7 +60,8 @@ async def on_message(message):
     if message.author == client.user:
         return
 
-    if message.content.startswith('treat'):     # If we write the word "treat" in the chat in Discord, this function will run.
+    # If we write the word "treat" in the chat in Discord, this function will run:
+    if message.content.startswith('treat') or message.content.startswith('Treat'):
         for i in range(0, 90):
             rotateServo(pin, i)
         await message.channel.send('Sent a treat to your pet!')
