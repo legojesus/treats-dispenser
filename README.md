@@ -2,6 +2,9 @@
 A mini python app that connects to Discord and an Arduino device with a servo motor, 
 allowing you to video chat with your pet and give it treats via chat command.
 
+By Yaron K.
+https://github.com/legojesus/treats-dispenser
+
 Tested and built on Ubuntu 20.04 and Arduino Uno.
 
 
