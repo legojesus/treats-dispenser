@@ -1,5 +1,7 @@
 ### Pet Dispenser 1.0.2
+# Author: Yaron K.
 # Date: 2022-08-30
+# Git Repo: https://github.com/legojesus/treats-dispenser
 
 # -------------------------------------------
 # This app launches a Discord bot that listens to certain keywords and activates a servo motor on an Arduino
@@ -66,4 +68,5 @@ async def on_message(message):
         await message.channel.send('Sent a treat to your pet!')
 
 
-client.run('xxxxxxxxxx')    # The bot's API key
+if __name__ == "__main__":
+    client.run('xxxxxxxxxx')    # The bot's API key
