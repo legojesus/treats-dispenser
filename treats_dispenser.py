@@ -14,13 +14,13 @@ from pyfirmata import Arduino, SERVO
 from time import sleep
 
 port = '/dev/ttyACM0'  # Port may be different on your setup (depending on OS). Use the official Arduino IDE to find it.
-pin = 9               # The physical pin # on the Arduino in which the servo motor is connected to.
+pin = 9                # The physical pin # on the Arduino in which the servo motor is connected to.
 board = Arduino(port)  # Initialize the board.
 
 board.digital[pin].mode = SERVO
 
 
-def rotateServo(pin_num: int, angle: int):
+def rotate_servo(pin_num: int, angle: int):
     """
     Spins the servo motor via the Arduino Uno unit.
 
@@ -34,7 +34,7 @@ def rotateServo(pin_num: int, angle: int):
     sleep(0.015)
 
 
-rotateServo(pin, 90)  # Keeps the servo motor off.
+rotate_servo(pin, 90)  # Keeps the servo motor off.
 
 
 # Discord Bot & Control:
@@ -63,8 +63,8 @@ async def on_message(message):
     # If we write the word "treat" in the chat in Discord, this function will run:
     if message.content.startswith('treat') or message.content.startswith('Treat'):
         for i in range(0, 90):
-            rotateServo(pin, i)
+            rotate_servo(pin, i)
         await message.channel.send('Sent a treat to your pet!')
 
 
-client.run('xxxxxxxxx')    # The bot's API key
+client.run('xxxxxxxxxx')    # The bot's API key
