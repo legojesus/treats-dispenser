@@ -1,6 +1,6 @@
-### Pet Dispenser 1.0.2
+### Pet Dispenser 1.0.4
 # Author: Yaron K.
-# Date: 2022-08-30
+# Date: 2022-09-13
 # Git Repo: https://github.com/legojesus/treats-dispenser
 
 # -------------------------------------------
@@ -35,8 +35,42 @@ def rotate_servo(pin_num: int, angle: int):
     sleep(0.015)
 
 
-rotate_servo(pin, 90)  # Keeps the servo motor off.
+def right_rotate():
+    """
+    Rotates the dispenser clockwise multiple times. Used if some treats are stuck in the dispenser.
+    """
 
+    for i in range(0, 90):
+        rotate_servo(pin, i)
+        rotate_servo(pin, i)
+        rotate_servo(pin, i)
+        rotate_servo(pin, i)
+
+
+def left_rotate():
+    """
+    Rotates the dispenser counter-clockwise multiple times. Used if some treats are stuck in the dispenser.
+    """
+
+    for i in range(90, 180):
+        rotate_servo(pin, i)
+        rotate_servo(pin, i)
+        rotate_servo(pin, i)
+        rotate_servo(pin, i)
+
+    rotate_servo(pin, 90)  # Stops the motor.
+
+
+def give_treat():
+    """
+    Rotates the dispenser quickly to drop a few treats on command.
+    """
+    for i in range(0, 90):
+        rotate_servo(pin, i)
+    rotate_servo(pin, 90)  # Stops the motor.
+
+
+rotate_servo(pin, 90)  # Sets the servo motor off on initialization.
 
 # Discord Bot & Control:
 # Must have a Discord user account and create a new application bot to get an API key.
@@ -48,7 +82,7 @@ import discord
 intents = discord.Intents.all()
 intents.members = True
 
-client = discord.Client(intents=intents)    # Initializes the bot.
+client = discord.Client(intents=intents)  # Initializes the bot.
 
 
 @client.event
@@ -61,11 +95,21 @@ async def on_message(message):
     if message.author == client.user:
         return
 
-    # If we write the word "treat" in the chat in Discord, this function will run:
+    # If we write the word "treat" in the chat in Discord, this code will release a treat by opening and closing the
+    # container using the servo motor:
     if message.content.startswith('treat') or message.content.startswith('Treat'):
-        for i in range(0, 90):
-            rotate_servo(pin, i)
+        give_treat()
         await message.channel.send('Sent a treat to your pet!')
+
+    # Rotates the dispenser clockwise multiple times in case some treats are stuck.
+    if message.content.startswith('right') or message.content.startswith('Right'):
+        right_rotate()
+        await message.channel.send('Dispenser rotated successfully.')
+
+    # Rotates the dispenser counter-clockwise multiple times in case some treats are stuck.
+    if message.content.startswith('left') or message.content.startswith('Left'):
+        left_rotate()
+        await message.channel.send('Dispenser rotated successfully.')
 
 
 if __name__ == "__main__":
