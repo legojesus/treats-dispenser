@@ -1,4 +1,4 @@
-### Pet Dispenser 1.0.2
+### Pet Dispenser 1.0.4
 # Date: 2022-08-30
 
 # -------------------------------------------
@@ -13,13 +13,14 @@ from pyfirmata import Arduino, SERVO
 from time import sleep
 
 port = '/dev/ttyACM0'  # Port may be different on your setup (depending on OS). Use the official Arduino IDE to find it.
-pin = 9               # The physical pin # on the Arduino in which the servo motor is connected to.
+pin = 9  # The physical pin # on the Arduino in which the servo motor is connected to.
 board = Arduino(port)  # Initialize the board.
+container_open = False
 
 board.digital[pin].mode = SERVO
 
 
-def rotateServo(pin_num: int, angle: int):
+def rotate_servo(pin_num: int, angle: int):
     """
     Spins the servo motor via the Arduino Uno unit.
 
@@ -33,8 +34,42 @@ def rotateServo(pin_num: int, angle: int):
     sleep(0.015)
 
 
-rotateServo(pin, 90)  # Keeps the servo motor off.
+def right_rotate():
+    """
+    Rotates the dispenser clockwise multiple times. Used if some treats are stuck in the dispenser.
+    """
 
+    for i in range(0, 90):
+        rotate_servo(pin, i)
+        rotate_servo(pin, i)
+        rotate_servo(pin, i)
+        rotate_servo(pin, i)
+
+
+def left_rotate():
+    """
+    Rotates the dispenser counter-clockwise multiple times. Used if some treats are stuck in the dispenser.
+    """
+
+    for i in range(90, 180):
+        rotate_servo(pin, i)
+        rotate_servo(pin, i)
+        rotate_servo(pin, i)
+        rotate_servo(pin, i)
+
+    rotate_servo(pin, 90)  # Stops the motor.
+
+
+def give_treat():
+    """
+    Rotates the dispenser quickly to drop a few treats on command.
+    """
+    for i in range(0, 90):
+        rotate_servo(pin, i)
+    rotate_servo(pin, 90)  # Stops the motor.
+
+
+rotate_servo(pin, 90)  # Sets the servo motor off on initialization.
 
 # Discord Bot & Control:
 # Must have a Discord user account and create a new application bot to get an API key.
@@ -46,7 +81,7 @@ import discord
 intents = discord.Intents.all()
 intents.members = True
 
-client = discord.Client(intents=intents)    # Initializes the bot.
+client = discord.Client(intents=intents)  # Initializes the bot.
 
 
 @client.event
@@ -59,11 +94,21 @@ async def on_message(message):
     if message.author == client.user:
         return
 
-    # If we write the word "treat" in the chat in Discord, this function will run:
+    # If we write the word "treat" in the chat in Discord, this code will release a treat by opening and closing the
+    # container using the servo motor:
     if message.content.startswith('treat') or message.content.startswith('Treat'):
-        for i in range(0, 90):
-            rotateServo(pin, i)
+        give_treat()
         await message.channel.send('Sent a treat to your pet!')
 
+    # Rotates the dispenser clockwise multiple times in case some treats are stuck.
+    if message.content.startswith('right') or message.content.startswith('Right'):
+        right_rotate()
+        await message.channel.send('Dispenser rotated successfully.')
 
-client.run('xxxxxxxxx')    # The bot's API key
+    # Rotates the dispenser counter-clockwise multiple times in case some treats are stuck.
+    if message.content.startswith('left') or message.content.startswith('Left'):
+        left_rotate()
+        await message.channel.send('Dispenser rotated successfully.')
+
+
+client.run('OTk2ODIxNjExNTQ0MDcyMzIy.G_vjpS.mrajDaH3d8IuXUEm0Q1jRLDfL9NA3Uoip5SJLE')  # The bot's API key
