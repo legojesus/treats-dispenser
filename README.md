@@ -1,3 +1,16 @@
+### Updates:
+Version 1.0.4:
+ - Changed treat function to accomodate new dispenser design. 
+ - Added two new functions to rotate the dispenser fully right/left in case treats are stuck.
+
+Version 1.0.2:
+ - Adjusted servo motor function's timing and speed. 
+ - Added comments and descriptions where needed. 
+ 
+Version 1.0.0:
+ - First stable version.
+
+
 # Treats Dispenser:
 A mini python app that connects to Discord and an Arduino device with a servo motor, 
 allowing you to video chat with your pet and give it treats via chat command.
