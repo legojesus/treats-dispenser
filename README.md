@@ -1,3 +1,14 @@
+# Treats Dispenser
+A mini python app that connects to Discord and an Arduino device with a servo motor, 
+allowing you to video chat with your pet and give it treats via chat command.
+
+Tested and built on Ubuntu 20.04 and Arduino Uno.
+
+Video of the build process and how it works:
+
+[![Watch the video](https://img.youtube.com/vi/pCctaa3Px0k/hqdefault.jpg)](https://youtu.be/pCctaa3Px0k)
+
+
 ### Updates:
 Version 1.0.4:
  - Changed treat function to accomodate new dispenser design. 
@@ -9,13 +20,6 @@ Version 1.0.2:
  
 Version 1.0.0:
  - First stable version.
-
-
-# Treats Dispenser:
-A mini python app that connects to Discord and an Arduino device with a servo motor, 
-allowing you to video chat with your pet and give it treats via chat command.
-
-Tested and built on Ubuntu 20.04 and Arduino Uno.
 
 
 ## Concept: 
@@ -31,13 +35,14 @@ Total cost of the solution: ~$50 for the Arduino unit and the motor + time and c
 building the treats container. 
 
 
+
 ### Requirements: 
 - Two active Discord accounts - one for the on-prem laptop to stay connected to the video chat, and one for your personal use: www.discord.com 
 - An Arduino Uno unit: https://www.arduino.cc/en/Guide/ArduinoUno
 - A Servo motor unit: https://arduinogetstarted.com/tutorials/arduino-servo-motor
 
 
-### How to build and deploy (very basic instructions without details for now):
+### How to build and deploy:
 1. Connect the Arduino unit to the computer. 
 2. Find the used USB port's name/number using the official Arduino IDE app (from their official website).
 3. Edit the 'port' variable in the python code accordingly.
